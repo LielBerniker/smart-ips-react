@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import TableContainer from './components/TableContainer';
 import { GatewayConfigProvider } from './contexts/GatewayConfigContext';
 import './App.css';
-import { showContext } from '../public/updateSmartDpiConf';
+import { showContext } from './updateSmartDpiConf';
 
 function App() {
   useEffect(() => {
