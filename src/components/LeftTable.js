@@ -3,11 +3,13 @@ import StateToggle from './StateToggle';
 import ModeSelection from './ModeSelection';
 import ThresholdInput from './ThresholdInput';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext';
+import './LeftTable.css';
 
 function LeftTable() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [mode, setMode] = useState('monitor');
   const [threshold, setThreshold] = useState(60);
+  const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { gatewayConfig, setGatewayConfig } = useContext(GatewayConfigContext);
 
@@ -38,10 +40,12 @@ function LeftTable() {
     if (thresholdValue < 1 || thresholdValue > 100) {
       setErrorMessage('Please insert a valid threshold percentage, between 1 to 100.');
       setThreshold(60);
+      setShowError(true);
       return;
     }
 
     setErrorMessage('');
+    setShowError(false);
 
     // Update the existing gatewayConfig object
     setGatewayConfig(prevConfig => ({
@@ -50,6 +54,10 @@ function LeftTable() {
       mode,
       threshold: thresholdValue,
     }));
+  };
+
+  const handleCloseError = () => {
+    setShowError(false);
   };
 
   return (
@@ -68,12 +76,20 @@ function LeftTable() {
                 <ModeSelection isEnabled={isEnabled} mode={mode} handleModeChange={handleModeChange} />
                 <ThresholdInput isEnabled={isEnabled} threshold={threshold} handleThresholdChange={handleThresholdChange} />
                 <button type="submit" onClick={handleSubmit}>Submit</button>
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
               </div>
             </td>
           </tr>
         </tbody>
       </table>
+
+      {showError && (
+        <div className="error-modal">
+          <div className="error-modal-content">
+            <p>{errorMessage}</p>
+            <button onClick={handleCloseError}>OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
