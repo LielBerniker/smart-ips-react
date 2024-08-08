@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TableContainer from './components/TableContainer';
 import './App.css';
+import { showContext } from './updateSmartDpiConf';
 
 function App() {
+  useEffect(() => {
+    showContext();
+  }, []);
+
   return (
-    <div className="App" onLoad={showContext}>
+    <div className="App">
       <TableContainer />
     </div>
   );
