@@ -34,7 +34,7 @@ function LeftTable() {
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent form submission
     event.target.disabled = true;
-
+    console.log("click sumbit")
     const thresholdValue = parseInt(threshold, 10);
 
     if (thresholdValue < 1 || thresholdValue > 100) {
@@ -45,8 +45,6 @@ function LeftTable() {
     }
 
     setErrorMessage('');
-    setShowError(false);
-
     // Update the existing gatewayConfig object
     setGatewayConfig(prevConfig => ({
       ...prevConfig,
