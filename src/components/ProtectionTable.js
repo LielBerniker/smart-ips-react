@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './App.css'; // Ensure this imports the CSS with the new styles
 
 function ProtectionTable() {
   const [activeTab, setActiveTab] = useState(null);
