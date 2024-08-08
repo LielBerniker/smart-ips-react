@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ThresholdInput({ isEnabled }) {
+function ThresholdInput({ isEnabled, threshold, handleThresholdChange }) {
   return (
     <div className="threshold-wrapper">
       <label htmlFor="threshold">Threshold (%):</label>
@@ -10,6 +10,8 @@ function ThresholdInput({ isEnabled }) {
         name="threshold"
         min="1"
         max="100"
+        value={threshold}
+        onChange={handleThresholdChange}
         disabled={!isEnabled}
       />
     </div>

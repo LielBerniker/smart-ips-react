@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import StateToggle from './StateToggle';
 import ModeSelection from './ModeSelection';
 import ThresholdInput from './ThresholdInput';
+import { GatewayConfigContext } from '../contexts/GatewayConfigContext';
 
 function LeftTable() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [mode, setMode] = useState('monitor');
+  const [threshold, setThreshold] = useState(60);
+  const [errorMessage, setErrorMessage] = useState('');
+  const { gatewayConfig, setGatewayConfig } = useContext(GatewayConfigContext);
 
   const handleToggleChange = () => {
     setIsEnabled(prevState => {
@@ -19,6 +23,33 @@ function LeftTable() {
 
   const handleModeChange = (event) => {
     setMode(event.target.value);
+  };
+
+  const handleThresholdChange = (event) => {
+    setThreshold(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent form submission
+    event.target.disabled = true;
+
+    const thresholdValue = parseInt(threshold, 10);
+
+    if (thresholdValue < 1 || thresholdValue > 100) {
+      setErrorMessage('Please insert a valid threshold percentage, between 1 to 100.');
+      setThreshold(60);
+      return;
+    }
+
+    setErrorMessage('');
+
+    // Update the existing gatewayConfig object
+    setGatewayConfig(prevConfig => ({
+      ...prevConfig,
+      isEnabled,
+      mode,
+      threshold: thresholdValue,
+    }));
   };
 
   return (
@@ -35,8 +66,9 @@ function LeftTable() {
               <div className="config-container">
                 <StateToggle isEnabled={isEnabled} handleToggleChange={handleToggleChange} />
                 <ModeSelection isEnabled={isEnabled} mode={mode} handleModeChange={handleModeChange} />
-                <ThresholdInput isEnabled={isEnabled} />
-                <button type="submit">Submit</button>
+                <ThresholdInput isEnabled={isEnabled} threshold={threshold} handleThresholdChange={handleThresholdChange} />
+                <button type="submit" onClick={handleSubmit}>Submit</button>
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
               </div>
             </td>
           </tr>
