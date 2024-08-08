@@ -8,7 +8,13 @@ function LeftTable() {
   const [mode, setMode] = useState('monitor');
 
   const handleToggleChange = () => {
-    setIsEnabled(!isEnabled);
+    setIsEnabled(prevState => {
+      const newState = !prevState;
+      if (!newState) {
+        setMode('monitor'); // Change mode to 'monitor' when disabling
+      }
+      return newState;
+    });
   };
 
   const handleModeChange = (event) => {
