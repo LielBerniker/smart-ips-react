@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function ProtectionTable() {
-  const [activeTab, setActiveTab] = useState(null);
+  const [activeTab, setActiveTab] = useState('critical-impact-protections');
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -16,7 +16,7 @@ function ProtectionTable() {
       case 'timeline-show':
         return <h1>Timeline Content</h1>;
       default:
-        return <h1>Select a tab to view content</h1>;
+        return <h1>Critical Impact Protections Content</h1>;
     }
   };
 

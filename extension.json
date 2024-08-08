@@ -20,7 +20,7 @@
           "details-level": "full",
           "method": "get",
           "trigger-id": "gateways-details-pane",
-          "url": "index.html"
+          "url": "public/index.html"
         }
       }
     }
