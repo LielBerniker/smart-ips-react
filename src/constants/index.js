@@ -1,0 +1,12 @@
+export const SMART_DPI_CONFIG_UPDATE = "python3 $FWDIR/bin/smart_dpi_config_update.pyc";
+export const SMART_DPI_CONFIG_REPORT = "python3 $FWDIR/bin/smart_dpi_config_report.pyc";
+export const DISABLE_MODE = 1 /* Send report to cloud only */
+export const MONITOR_MODE = 2 /* Monitor + send log to smart console */
+export const ACTION_MODE = 3 /* Completely enabled */
+export const MONITOR_STR = "Monitor"
+export const ACTION_STR = "Action"
+export const ENABLED_STR = "Enabled"
+export const DISABLED_STR = "Disabled"
+export const MODE_UPDATE = "Mode update"
+export const STATE_UPDATE = "State update"
+export const SMART_DPI_INFORMATION = "smart_dpi_information_"

@@ -1,7 +1,9 @@
+// src/App.js
 import React, { useEffect } from 'react';
 import TableContainer from './components/TableContainer';
+import { GatewayConfigProvider } from './contexts/GatewayConfigContext';
 import './App.css';
-import { showContext } from './updateSmartDpiConf';
+import { showContext } from '../public/updateSmartDpiConf';
 
 function App() {
   useEffect(() => {
@@ -9,9 +11,11 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <TableContainer />
-    </div>
+    <GatewayConfigProvider>
+      <div className="App">
+        <TableContainer />
+      </div>
+    </GatewayConfigProvider>
   );
 }
 
