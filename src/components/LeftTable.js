@@ -33,7 +33,6 @@ function LeftTable() {
 
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent form submission
-    event.target.disabled = true;
     console.log("click sumbit")
     const thresholdValue = parseInt(threshold, 10);
 
