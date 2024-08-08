@@ -1,0 +1,21 @@
+import React from 'react';
+
+function StateToggle({ isEnabled, handleToggleChange }) {
+  return (
+    <div className="state-wrapper">
+      <span className="state-text">State:</span>
+      <label className="switch">
+        <input
+          type="checkbox"
+          id="stateToggle"
+          checked={isEnabled}
+          onChange={handleToggleChange}
+        />
+        <span className="slider"></span>
+      </label>
+      <span className="state-status">{isEnabled ? 'Enabled' : 'Disabled'}</span>
+    </div>
+  );
+}
+
+export default StateToggle;

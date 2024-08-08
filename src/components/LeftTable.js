@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import StateToggle from './StateToggle';
+import ModeSelection from './ModeSelection';
+import ThresholdInput from './ThresholdInput';
 
 function LeftTable() {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [mode, setMode] = useState('monitor');
+
+  const handleToggleChange = () => {
+    setIsEnabled(!isEnabled);
+  };
+
+  const handleModeChange = (event) => {
+    setMode(event.target.value);
+  };
+
   return (
     <div className="left-table-wrapper">
       <table className="left-table">
@@ -13,29 +27,9 @@ function LeftTable() {
           <tr>
             <td>
               <div className="config-container">
-                <div className="state-wrapper">
-                  <span className="state-text">State:</span>
-                  <label className="switch">
-                    <input type="checkbox" id="stateToggle" />
-                    <span className="slider"></span>
-                  </label>
-                  <span className="state-status">Disabled</span>
-                </div>
-                <div className="mode-wrapper">
-                  <span className="mode-text">Mode:</span>
-                  <div className="radio-options">
-                    <label>
-                      <input type="radio" name="mode" value="monitor" disabled /> Monitor
-                    </label>
-                    <label>
-                      <input type="radio" name="mode" value="action" disabled /> Action
-                    </label>
-                  </div>
-                </div>
-                <div className="threshold-wrapper">
-                  <label htmlFor="threshold">Threshold (%):</label>
-                  <input type="number" id="threshold" name="threshold" min="1" max="100" />
-                </div>
+                <StateToggle isEnabled={isEnabled} handleToggleChange={handleToggleChange} />
+                <ModeSelection isEnabled={isEnabled} mode={mode} handleModeChange={handleModeChange} />
+                <ThresholdInput isEnabled={isEnabled} />
                 <button type="submit">Submit</button>
               </div>
             </td>
