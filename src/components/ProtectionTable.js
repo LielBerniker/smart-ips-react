@@ -1,7 +1,7 @@
 // src/components/ProtectionTable.js
 import React, { useState } from 'react';
 import TableContent from './TableContent';
-import Timeline from './Timeline';
+import ProtectionsTimeline from './ProtectionsTimeline';
 
 function ProtectionTable() {
   const [activeTab, setActiveTab] = useState('critical-impact-protections');
@@ -17,7 +17,7 @@ function ProtectionTable() {
       case 'log-history':
         return <TableContent tableType="Log History" />;
       case 'timeline-show':
-        return <Timeline />;
+        return <ProtectionsTimeline />;
       default:
         return <TableContent tableType="Critical Impact Protections" />;
     }

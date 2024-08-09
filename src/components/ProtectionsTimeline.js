@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { DataSet, Timeline } from 'vis-timeline/standalone';
 import { formatDate, getNextDayFormatted } from '../utils/dateUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
 
-function Timeline() {
+function ProtectionsTimeline() {
   const { gatewayConfig } = useContext(GatewayConfigContext); // Access the global context
   const [items, setItems] = useState([]);
   const [modalDetails, setModalDetails] = useState(null);
@@ -14,9 +15,9 @@ function Timeline() {
 
   useEffect(() => {
     if (items.length > 0) {
-      const timelineItems = new vis.DataSet(items);
+      const timelineItems = new DataSet(items);
       const container = document.getElementById('visualization');
-      const timeline = new vis.Timeline(container, timelineItems, {
+      const timeline = new Timeline(container, timelineItems, {
         width: '100%',
         height: '200px',
         editable: {
@@ -134,4 +135,4 @@ function createItemsForTimeline(history) {
   return items;
 }
 
-export default Timeline;
+export default ProtectionsTimeline;
