@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DataSet, Timeline as VisTimeline } from 'vis-timeline/standalone';
 import 'vis-timeline/styles/vis-timeline-graph2d.min.css';
 import { formatDate, getNextDayFormatted } from '../utils/dateUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
@@ -16,8 +15,9 @@ function Timeline() {
 
   useEffect(() => {
     if (items.length > 0) {
+      const timelineItems = new vis.DataSet(items);
       const container = document.getElementById('visualization');
-      const timeline = new VisTimeline(container, new DataSet(items), {
+      const timeline = new vis.Timeline(container, timelineItems, {
         width: '100%',
         height: '200px',
         editable: {
