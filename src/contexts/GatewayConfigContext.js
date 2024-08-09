@@ -37,12 +37,8 @@ const GatewayConfigProvider = ({ children }) => {
   );
 
   gatewayConfigInstance.history.push(
-    new ProtectionInformation('History 1', '2024-08-03', MODE_UPDATE),
-    new ProtectionInformation('History 2', '2024-08-04', STATE_UPDATE),
-    new ProtectionInformation('History 3', '2024-08-05', DISABLED_STR),
-    new ProtectionInformation('History 4', '2024-08-06', STATE_UPDATE),
-    new ProtectionInformation('History 5', '2024-08-07', ENABLED_STR),
-    new ProtectionInformation('History 6', '2024-08-07', STATE_UPDATE)
+    new ProtectionInformation('Microsoft Edge asm.js Type Confusion', '05 Aug 24 05:18:23 PM', 'Disabled'),
+    new ProtectionInformation('Microsoft Edge asm.js Type Confusion', '05 Aug 24 05:22:23 PM', 'Enabled')
   );
 
   // Initialize state with the updated gatewayConfigInstance

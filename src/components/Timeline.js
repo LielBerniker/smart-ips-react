@@ -1,0 +1,139 @@
+import React, { useState, useEffect, useContext } from 'react';
+import { DataSet, Timeline as VisTimeline } from 'vis-timeline/standalone';
+import 'vis-timeline/styles/vis-timeline-graph2d.min.css';
+import './Timeline.css';
+import { formatDate, getNextDayFormatted } from '../utils/dateUtils';
+import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
+
+function Timeline() {
+  const { gatewayConfig } = useContext(GatewayConfigContext); // Access the global context
+  const [items, setItems] = useState([]);
+  const [modalDetails, setModalDetails] = useState(null);
+
+  useEffect(() => {
+    const createdItems = createItemsForTimeline(gatewayConfig.history); // Use global history
+    setItems(createdItems);
+  }, [gatewayConfig.history]);
+
+  useEffect(() => {
+    if (items.length > 0) {
+      const container = document.getElementById('visualization');
+      const timeline = new VisTimeline(container, new DataSet(items), {
+        width: '100%',
+        height: '200px',
+        editable: {
+          add: false,
+          remove: false,
+          updateTime: false,
+          updateGroup: false,
+        },
+        margin: {
+          item: 10,
+          axis: 5,
+        },
+        orientation: 'bottom',
+        end: formatDate(new Date(new Date().setDate(new Date().getDate() + 1))),
+        zoomMin: 1000 * 60 * 60 * 24 * 3, // min zoom of days
+      });
+
+      timeline.on('click', function (properties) {
+        if (properties.item) {
+          const item = items.find(item => item.id === properties.item);
+          if (item) {
+            setModalDetails(item);
+          }
+        }
+      });
+    }
+  }, [items]);
+
+  const closeModal = () => {
+    setModalDetails(null);
+  };
+
+  return (
+    <div className="timeline-container">
+      <div id="visualization"></div>
+      {modalDetails && (
+        <div id="overlay">
+          <div id="item-modal">
+            <div id="item-details">
+              <p className="items-header"><strong>Disabled Protections</strong></p>
+              <ul className="items-list">
+                {modalDetails.info.map((info, index) => (
+                  <li key={index}>{info}</li>
+                ))}
+              </ul>
+            </div>
+            <button className="close-modal" onClick={closeModal}>OK</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function createItemsForTimeline(history) {
+  const timelineMap = new Map();
+  let prevDate = "";
+  let protectionsSet = new Set();
+
+  for (let i = history.length - 1; i >= 0; i--) {
+    const logInfo = history[i];
+    const dateKey = formatDate(logInfo.date);
+
+    if (prevDate === "") {
+      timelineMap.set(dateKey, new Set());
+      prevDate = dateKey;
+    }
+    while (dateKey !== prevDate) {
+      const dayAfterPrev = getNextDayFormatted(prevDate);
+      timelineMap.set(dayAfterPrev, new Set(protectionsSet));
+      prevDate = dayAfterPrev;
+    }
+
+    let currentData = timelineMap.get(dateKey);
+
+    if (logInfo.status === 'Disabled') {
+      if (!currentData.has(logInfo.name)) {
+        currentData.add(logInfo.name);
+        protectionsSet.add(logInfo.name);
+      }
+    } else if (logInfo.status === 'Enabled') {
+      if (currentData.has(logInfo.name)) {
+        protectionsSet.delete(logInfo.name);
+      }
+    }
+  }
+
+  if (protectionsSet.size > 0) {
+    let currentDate = new Date();
+    let formatedDate = formatDate(currentDate);
+    while (formatedDate !== prevDate) {
+      const dayAfterPrev = getNextDayFormatted(prevDate);
+      timelineMap.set(dayAfterPrev, new Set(protectionsSet));
+      prevDate = dayAfterPrev;
+    }
+  }
+
+  const items = [];
+  let idCounter = 1;
+
+  timelineMap.forEach((protectionsSet, dateKey) => {
+    const infoArray = Array.from(protectionsSet);
+    if (infoArray.length > 0) {
+      items.push({
+        id: idCounter,
+        content: String(infoArray.length),
+        start: dateKey,
+        info: infoArray,
+        className: 'custom-item',
+      });
+      idCounter++;
+    }
+  });
+
+  return items;
+}
+
+export default Timeline;
