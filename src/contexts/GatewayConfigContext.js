@@ -27,7 +27,7 @@ class GatewayConfigInfo {
 
 // Create a provider component
 const GatewayConfigProvider = ({ children }) => {
-  const [gatewayConfig, setGatewayConfig] = useState(new GatewayConfigInfo(false, '', 0));
+  const [gatewayConfig, setGatewayConfig] = useState(new GatewayConfigInfo(false, 'monitor', 50));
 
   return (
     <GatewayConfigContext.Provider value={{ gatewayConfig, setGatewayConfig }}>
