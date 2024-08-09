@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { DataSet, Timeline as VisTimeline } from 'vis-timeline/standalone';
 import 'vis-timeline/styles/vis-timeline-graph2d.min.css';
-import './Timeline.css';
 import { formatDate, getNextDayFormatted } from '../utils/dateUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
 
