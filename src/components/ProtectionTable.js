@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TableContent from './TableContent';
 
 function ProtectionTable() {
   const [activeTab, setActiveTab] = useState('critical-impact-protections');
@@ -10,13 +11,13 @@ function ProtectionTable() {
   const renderContent = () => {
     switch (activeTab) {
       case 'critical-impact-protections':
-        return <h1>Critical Impact Protections Content</h1>;
+        return <TableContent tableType="Critical Impact Protections" />;
       case 'log-history':
-        return <h1>Log History Content</h1>;
+        return <TableContent tableType="Log History" />;
       case 'timeline-show':
         return <h1>Timeline Content</h1>;
       default:
-        return <h1>Critical Impact Protections Content</h1>;
+        return <TableContent tableType="Critical Impact Protections" />;
     }
   };
 
