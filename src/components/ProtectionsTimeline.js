@@ -12,7 +12,6 @@ function ProtectionsTimeline() {
     const createdItems = createItemsForTimeline(gatewayConfig.history); // Use global history
     setItems(createdItems);
   }, [gatewayConfig.history]);
-
   
   useEffect(() => {
     if (items.length > 0) {
