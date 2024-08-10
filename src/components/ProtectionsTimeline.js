@@ -13,6 +13,7 @@ function ProtectionsTimeline() {
     setItems(createdItems);
   }, [gatewayConfig.history]);
   
+  
   useEffect(() => {
     if (items.length > 0) {
       const timelineItems = new DataSet(items);
