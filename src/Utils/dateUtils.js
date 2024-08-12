@@ -1,6 +1,4 @@
-// src/utils/dateUtils.js
-
-export const formatDate = (date) => {
+export const convertToformat = (date) => {
     const year = date.getFullYear().toString().slice(-2); // last two digits of year
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // month
     const day = date.getDate().toString().padStart(2, '0'); // day
@@ -13,7 +11,7 @@ export const formatDate = (date) => {
     return prevDateObj.toISOString().split('T')[0];
   };
   
-  export const convertDateFormat = (dateStr) => {
+  export const convertDateToFormat = (dateStr) => {
     const months = {
         Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
         Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12'
@@ -22,3 +20,11 @@ export const formatDate = (date) => {
     return `20${year}-${months[month]}-${day.padStart(2, '0')}`;
   };
   
+  function convertFormatToDate(dateString) {
+    const dateObject = new Date(dateString);
+    // Check if the date is valid
+    if (isNaN(dateObject)) {
+      throw new Error("Invalid date format");
+    }
+    return dateObject;
+  }

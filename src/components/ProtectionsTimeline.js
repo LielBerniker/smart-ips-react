@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { DataSet, Timeline } from 'vis-timeline/standalone';
-import { formatDate, getNextDayFormatted } from '../utils/dateUtils';
+import { convertToformat, convertDateToFormat, getNextDayFormatted ,convertFormatToDate } from '../utils/dateUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
 
 function ProtectionsTimeline() {
@@ -86,7 +86,7 @@ function createItemsForTimeline(history) {
 
   for (let i = history.length - 1; i >= 0; i--) {
     const logInfo = history[i];
-    const dateKey = formatDate(logInfo.date);
+    const dateKey = convertDateToFormat(logInfo.date);
 
     if (prevDate === "") {
       timelineMap.set(dateKey, new Set());
@@ -114,7 +114,7 @@ function createItemsForTimeline(history) {
 
   if (protectionsSet.size > 0) {
     let currentDate = new Date();
-    let formatedDate = formatDate(currentDate);
+    let formatedDate = convertToformat(currentDate);
     while (formatedDate !== prevDate) {
       const dayAfterPrev = getNextDayFormatted(prevDate);
       timelineMap.set(dayAfterPrev, new Set(protectionsSet));
@@ -128,10 +128,11 @@ function createItemsForTimeline(history) {
   timelineMap.forEach((protectionsSet, dateKey) => {
     const infoArray = Array.from(protectionsSet);
     if (infoArray.length > 0) {
+      protectionDate = convertFormatToDate(dateKey)
       items.push({
         id: idCounter,
         content: String(infoArray.length),
-        start: dateKey,
+        start: protectionDate,
         info: infoArray,
         className: 'custom-item',
       });
