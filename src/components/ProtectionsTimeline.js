@@ -128,7 +128,7 @@ function createItemsForTimeline(history) {
   timelineMap.forEach((protectionsSet, dateKey) => {
     const infoArray = Array.from(protectionsSet);
     if (infoArray.length > 0) {
-      protectionDate = convertFormatToDate(dateKey)
+      var protectionDate = convertFormatToDate(dateKey)
       items.push({
         id: idCounter,
         content: String(infoArray.length),
