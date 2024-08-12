@@ -19,6 +19,12 @@ function ProtectionsTimeline() {
     if (items.length > 0) {
       const timelineItems = new DataSet(items);
       const container = document.getElementById('visualization');
+      
+      var currentDate = new Date();
+      // edit the current date to have the date of tomorrow
+      currentDate.setDate(currentDate.getDate() + 1);
+      var formattedDate = formatDate(currentDate);
+
       const timeline = new Timeline(container, timelineItems, {
         width: '100%',
         height: '200px',
@@ -33,7 +39,7 @@ function ProtectionsTimeline() {
           axis: 5,
         },
         orientation: 'bottom',
-        end: formatDate(new Date(new Date().setDate(new Date().getDate() + 1))),
+        end: formattedDate,
         zoomMin: 1000 * 60 * 60 * 24 * 3, // min zoom of days
       });
 
