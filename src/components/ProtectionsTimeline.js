@@ -15,7 +15,7 @@ function ProtectionsTimeline() {
   }, [gatewayConfig.history]);
 
   useEffect(() => {
-    if (items.length > 0 || items.length === 0) {
+    if (items.length > 0) {
       const timelineItems = new DataSet(items);
       const container = document.getElementById('visualization');
 
@@ -51,7 +51,10 @@ function ProtectionsTimeline() {
 
       // Set loading to false after the timeline has been initialized
       setLoading(false);
-    } 
+    } else {
+      // Even if items are empty, we set loading to false to show an empty timeline
+      setLoading(false);
+    }
   }, [items]);
 
   const closeModal = () => {
