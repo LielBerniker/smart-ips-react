@@ -222,8 +222,9 @@ body {
     height: 400px;
     border: 1px solid lightgray;
   }
+
   #item-modal {
-    display: none;
+    display: block;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -235,8 +236,9 @@ body {
     padding: 0;
     margin-top: 0;
   }
+  
   #overlay {
-    display: none;
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
