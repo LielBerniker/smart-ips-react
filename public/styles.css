@@ -1,3 +1,7 @@
+* {
+  user-select: text; /* Allow text selection */
+}
+
 body {
     font-family: Arial, sans-serif;
   }
@@ -236,7 +240,7 @@ body {
     padding: 0;
     margin-top: 0;
   }
-  
+
   #overlay {
     display: block;
     position: fixed;
