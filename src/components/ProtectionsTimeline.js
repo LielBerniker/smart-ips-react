@@ -58,11 +58,12 @@ function ProtectionsTimeline() {
   };
 
   return (
-    <div className="timeline-container">
+    <>
       <div id="visualization"></div>
       {modalDetails && (
-        <div id="overlay">
-          <div id="item-modal">
+        <>
+          <div id="overlay" style={overlayStyles}></div>
+          <div id="item-modal" style={modalStyles}>
             <div id="item-details">
               <p className="items-header"><strong>Disabled Protections</strong></p>
               <ul className="items-list">
@@ -73,9 +74,10 @@ function ProtectionsTimeline() {
             </div>
             <button className="close-modal" onClick={closeModal}>OK</button>
           </div>
-        </div>
+        </>
       )}
-    </div>
+      <div id="content"></div>
+    </>
   );
 }
 
