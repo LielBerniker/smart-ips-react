@@ -2,13 +2,20 @@ import React, { useContext } from 'react';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext';
 import { MODE_UPDATE, STATE_UPDATE } from '../constants';
 
-function TableContent({ tableType }) {
+function TableContent({ tableType, onLoad }) {
   const { gatewayConfig } = useContext(GatewayConfigContext);
   
   // Determine which array to use based on the tableType
   const tableInformationList = tableType === 'Critical Impact Protections'
     ? gatewayConfig.protections
     : gatewayConfig.history;
+
+  useEffect(() => {
+    // Call onLoad immediately after the component has mounted and the data is ready
+    if (onLoad) {
+      onLoad();
+    }
+  }, [onLoad]);
 
   return (
     <table className="protection-table">

@@ -5,21 +5,31 @@ import ProtectionsTimeline from './ProtectionsTimeline';
 
 function ProtectionTable() {
   const [activeTab, setActiveTab] = useState('critical-impact-protections');
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    setLoading(true);
+  }, [activeTab]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  const handleContentLoaded = () => {
+    setLoading(false); // Content has loaded, so stop showing the loader
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'critical-impact-protections':
-        return <TableContent tableType="Critical Impact Protections" />;
+        return <TableContent tableType="Critical Impact Protections" onLoad={handleContentLoaded} />;
       case 'log-history':
-        return <TableContent tableType="Log History" />;
+        return <TableContent tableType="Log History" onLoad={handleContentLoaded} />;
       case 'timeline-show':
-        return <ProtectionsTimeline />;
+        return <ProtectionsTimeline onLoad={handleContentLoaded} />;
       default:
-        return <TableContent tableType="Critical Impact Protections" />;
+        return <TableContent tableType="Critical Impact Protections" onLoad={handleContentLoaded} />;
     }
   };
 
@@ -49,7 +59,11 @@ function ProtectionTable() {
         </h1>
       </div>
       <div className="protection-table-wrapper">
-        {renderContent()}
+        {loading ? (
+          <div className="loading-icon">Loading...</div> // Replace with an actual spinner if needed
+        ) : (
+          renderContent()
+        )}
       </div>
     </div>
   );

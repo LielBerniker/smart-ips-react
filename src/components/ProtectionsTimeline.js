@@ -3,7 +3,7 @@ import { DataSet, Timeline } from 'vis-timeline/standalone';
 import { convertToformat, convertDateToFormat, getNextDayFormatted ,convertFormatToDate } from '../utils/dateUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
 
-function ProtectionsTimeline() {
+function ProtectionsTimeline({ onLoad }) {
   const { gatewayConfig } = useContext(GatewayConfigContext); // Access the global context
   const [items, setItems] = useState([]);
   const [modalDetails, setModalDetails] = useState(null);
@@ -50,8 +50,12 @@ function ProtectionsTimeline() {
           }
         }
       });
+      // Call onLoad if provided to inform the parent that rendering is complete
+      if (onLoad) {
+        onLoad();
+      }
     }
-  }, [items]);
+  }, [items, onLoad]);
 
   const closeModal = () => {
     setModalDetails(null);
@@ -76,7 +80,6 @@ function ProtectionsTimeline() {
           </div>
         </>
       )}
-      <div id="content"></div>
     </>
   );
 }
