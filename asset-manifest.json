@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/smart-ips-react/static/css/main.f8ba3adf.css",
-    "main.js": "/smart-ips-react/static/js/main.edbe4589.js",
+    "main.js": "/smart-ips-react/static/js/main.8c060c40.js",
     "index.html": "/smart-ips-react/index.html",
     "main.f8ba3adf.css.map": "/smart-ips-react/static/css/main.f8ba3adf.css.map",
-    "main.edbe4589.js.map": "/smart-ips-react/static/js/main.edbe4589.js.map"
+    "main.8c060c40.js.map": "/smart-ips-react/static/js/main.8c060c40.js.map"
   },
   "entrypoints": [
     "static/css/main.f8ba3adf.css",
-    "static/js/main.edbe4589.js"
+    "static/js/main.8c060c40.js"
   ]
 }
