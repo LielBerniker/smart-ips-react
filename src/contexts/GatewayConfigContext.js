@@ -1,11 +1,11 @@
 // src/contexts/GatewayConfigContext.js
-import React, { createContext, useState } from 'react';
-import { SMART_DPI_INFORMATION, DISABLED_STR, ENABLED_STR, MODE_UPDATE, STATE_UPDATE } from '../constants'; // Import the constants
+import React, { createContext, useState, useEffect } from 'react';
+import { SMART_DPI_INFORMATION, DISABLED_STR, ENABLED_STR } from '../constants'; // Import the constants
 
 // Create the context
 const GatewayConfigContext = createContext();
 
-// GatewayConfigInfo and ProtectionInformation classes
+// ProtectionInformation class
 class ProtectionInformation {
   constructor(name, date, status) {
     this.name = name;
@@ -14,6 +14,7 @@ class ProtectionInformation {
   }
 }
 
+// GatewayConfigInfo class
 class GatewayConfigInfo {
   constructor(isEnabled, mode, threshold) {
     this.isEnabled = isEnabled;
@@ -27,22 +28,32 @@ class GatewayConfigInfo {
 
 // Create a provider component
 const GatewayConfigProvider = ({ children }) => {
-  // Create an instance of GatewayConfigInfo
-  const gatewayConfigInstance = new GatewayConfigInfo(false, 'monitor', 50);
+  const [gatewayConfig, setGatewayConfig] = useState(null); // Initialize as null to indicate loading
+  const [loading, setLoading] = useState(true); // Loading state
 
-  // Add sample data to protections and history
-  gatewayConfigInstance.protections.push(
-    new ProtectionInformation('Protection 1', '2024-08-01', DISABLED_STR),
-    new ProtectionInformation('Protection 2', '2024-08-02', DISABLED_STR)
-  );
+  useEffect(() => {
+    // Simulate data loading
+    const gatewayConfigInstance = new GatewayConfigInfo(false, 'monitor', 50);
 
-  gatewayConfigInstance.history.push(
-    new ProtectionInformation('Microsoft Edge asm.js Type Confusion', '05 Aug 24 05:18:23 PM', 'Enabled'),
-    new ProtectionInformation('Microsoft Edge asm.js Type Confusion', '05 Aug 24 05:22:23 PM', 'Disabled')
-  );
+    // Add sample data to protections and history
+    gatewayConfigInstance.protections.push(
+      new ProtectionInformation('Protection 1', '2024-08-01', DISABLED_STR),
+      new ProtectionInformation('Protection 2', '2024-08-02', DISABLED_STR)
+    );
 
-  // Initialize state with the updated gatewayConfigInstance
-  const [gatewayConfig, setGatewayConfig] = useState(gatewayConfigInstance);
+    gatewayConfigInstance.history.push(
+      new ProtectionInformation('Microsoft Edge asm.js Type Confusion', '05 Aug 24 05:18:23 PM', ENABLED_STR),
+      new ProtectionInformation('Microsoft Edge asm.js Type Confusion', '05 Aug 24 05:22:23 PM', DISABLED_STR)
+    );
+
+    // Set the gatewayConfigInstance and stop loading
+    setGatewayConfig(gatewayConfigInstance);
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Replace with your loading spinner or component
+  }
 
   return (
     <GatewayConfigContext.Provider value={{ gatewayConfig, setGatewayConfig }}>
