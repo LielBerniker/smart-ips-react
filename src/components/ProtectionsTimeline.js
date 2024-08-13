@@ -62,8 +62,8 @@ function ProtectionsTimeline() {
       <div id="visualization"></div>
       {modalDetails && (
         <>
-          <div id="overlay" style={display = 'block'}></div>
-          <div id="item-modal" style={display = 'block'}>
+          <div id="overlay"></div>
+          <div id="item-modal">
             <div id="item-details">
               <p className="items-header"><strong>Disabled Protections</strong></p>
               <ul className="items-list">
