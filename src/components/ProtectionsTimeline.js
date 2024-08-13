@@ -3,25 +3,23 @@ import { DataSet, Timeline } from 'vis-timeline/standalone';
 import { convertToformat, convertDateToFormat, getNextDayFormatted ,convertFormatToDate } from '../utils/dateUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
 
-function ProtectionsTimeline({ onLoad }) {
+function ProtectionsTimeline() {
   const { gatewayConfig } = useContext(GatewayConfigContext); // Access the global context
   const [items, setItems] = useState([]);
   const [modalDetails, setModalDetails] = useState(null);
+  const [loading, setLoading] = useState(true); // Initialize loading state to true
 
   useEffect(() => {
     const createdItems = createItemsForTimeline(gatewayConfig.history); // Use global history
     setItems(createdItems);
   }, [gatewayConfig.history]);
-  
 
-  
   useEffect(() => {
-    if (items.length > 0) {
+    if (items.length > 0 || items.length === 0) {
       const timelineItems = new DataSet(items);
       const container = document.getElementById('visualization');
 
-      var currentDate = new Date();
-      // edit the current date to have the date of tomorrow
+      let currentDate = new Date();
       currentDate.setDate(currentDate.getDate() + 1);
 
       const timeline = new Timeline(container, timelineItems, {
@@ -50,16 +48,19 @@ function ProtectionsTimeline({ onLoad }) {
           }
         }
       });
-      // Call onLoad if provided to inform the parent that rendering is complete
-      if (onLoad) {
-        onLoad();
-      }
-    }
-  }, [items, onLoad]);
+
+      // Set loading to false after the timeline has been initialized
+      setLoading(false);
+    } 
+  }, [items]);
 
   const closeModal = () => {
     setModalDetails(null);
   };
+
+  if (loading) {
+    return <div className="loading-icon">Loading...</div>; // Replace with a spinner if desired
+  }
 
   return (
     <>

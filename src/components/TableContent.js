@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext';
 import { MODE_UPDATE, STATE_UPDATE } from '../constants';
 
-function TableContent({ tableType, onLoad }) {
+function TableContent({ tableType }) {
   const { gatewayConfig } = useContext(GatewayConfigContext);
+  const [loading, setLoading] = useState(true);
   
   // Determine which array to use based on the tableType
   const tableInformationList = tableType === 'Critical Impact Protections'
@@ -11,11 +12,13 @@ function TableContent({ tableType, onLoad }) {
     : gatewayConfig.history;
 
   useEffect(() => {
-    // Call onLoad immediately after the component has mounted and the data is ready
-    if (onLoad) {
-      onLoad();
-    }
-  }, [onLoad]);
+    // The effect runs when tableInformationList changes (even if empty)
+    setLoading(false);
+  }, [tableInformationList]);
+
+  if (loading) {
+    return <div className="loading-icon">Loading...</div>; // Replace with a spinner if desired
+  }
 
   return (
     <table className="protection-table">
