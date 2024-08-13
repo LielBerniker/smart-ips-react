@@ -1,5 +1,5 @@
 // src/components/ProtectionTable.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TableContent from './TableContent';
 import ProtectionsTimeline from './ProtectionsTimeline';
 

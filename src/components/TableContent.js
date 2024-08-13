@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext';
 import { MODE_UPDATE, STATE_UPDATE } from '../constants';
 
