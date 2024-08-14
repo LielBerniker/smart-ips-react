@@ -28,3 +28,12 @@ export function convertFormatToDate(dateString) {
   }
   return dateObject;
 }
+
+export function isTimePass(storedTime, timeInMinutes) {
+  const currentTime = new Date();
+  const timeDifference = (currentTime - storedTime) / (1000 * 60); // Convert milliseconds to minutes
+  if (timeDifference > timeInMinutes) {
+    return true
+  }
+  return false
+}

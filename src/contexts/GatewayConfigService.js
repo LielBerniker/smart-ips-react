@@ -1,22 +1,65 @@
-import { SMART_DPI_INFORMATION, DISABLED_STR, ENABLED_STR } from '../constants';
+import { SMART_DPI_INFORMATION, DISABLED_STR, ENABLED_STR, FOUND_GW_CODE, NOT_FOUND_GW_CODE } from '../constants';
 import { GatewayConfigInfo, ProtectionInformation } from './GatewayConfigModels';
+import { receiveGWCodeCli } from '../utils/cliUtils';
+import { isGWCodeTimePass, getGWCodeResult } from '../utils/verificationUtils';
+import { updateGWCodeLocalStorge } from '../utils/localStorageUtils';
 import SmartConsoleInteractions from "smart-console-interactions";
 
 
 var interactions = new SmartConsoleInteractions();
 
 const gatewayConfigState = {
-    gatewayName: null,
-    smartDpiInformationKey: SMART_DPI_INFORMATION,
-    smartDpiGWCodeKey: SMART_DPI_INFORMATION,
-    // Add other shared properties as needed
-  };
+  gatewayName: null,
+  smartDpiInformationKey: SMART_DPI_INFORMATION,
+  smartDpiGWCodeKey: SMART_DPI_INFORMATION,
+  // Add other shared properties as needed
+};
 
+async function updateAndReturnGWCodeStatus(isGWCode){
+  if (isGWCode){
+    console.log("GW have the needed code for the smart ips extension")
+    updateGWCodeLocalStorge(FOUND_GW_CODE, gatewayConfigState.smartDpiGWCodeKey);
+    return true;
+  }
+  else{
+    console.log("GW do not have the needed code for the smart ips extension")
+    updateGWCodeLocalStorge(NOT_FOUND_GW_CODE, gatewayConfigState.smartDpiGWCodeKey);
+    return false;
+  }
+}
 
-async function updateGWConfigParams(obj) {
+async function isUpdateCodeOnGW() {
   try {
+    if (!localStorage.hasOwnProperty(gatewayConfigState.smartDpiGWCodeKey) || await isGWCodeTimePass(gatewayConfigState.smartDpiGWCodeKey)) {
+      console.log("smartDpiGWCodeKey is not in local storage, or the timestamp has expired.")
+      const gwCodeCli = receiveGWCodeCli(gatewayConfigState.gatewayName);
+      var result = await interactions.requestCommit([gwCodeCli]);
+      const GWCodeResult = await getGWCodeResult(result);
+      const gwCodeStatus = await updateAndReturnGWCodeStatus(GWCodeResult);
+      return gwCodeStatus
+    } else {
+      const storedData = localStorage.getItem(gatewayConfigState.smartDpiGWCodeKey);
+      const parsedData = JSON.parse(storedData);
+      if (Number(parsedData.isCodeOnGW) === FOUND_GW_CODE){
+        console.log("GW have the needed code for the smart ips extension")
+        return true;
+      }
+      else{
+        console.log("GW do not have the needed code for the smart ips extension")
+        return false;
+      }
+    }
+  } catch (error) {
+    console.error("Error while serchong for smart ips GW code: ", error);
+    throw new Error("Error while serchong for smart ips GW code:", error.message);
+  }
+}
+
+async function updateGWConfigParams() {
+  try {
+    const result = await interactions.getContextObject();
     // Destructure to safely access the nested properties
-    const { event } = obj;
+    const { event } = result;
     const { objects } = event || {};
 
     // Ensure that objects[0] exists and has a 'name' property
@@ -37,37 +80,20 @@ async function updateGWConfigParams(obj) {
     console.log(gatewayConfigState.smartDpiGWCodeKey);
   } catch (error) {
     console.error("Error updating gateway configuration:", error);
-    // Handle the error or rethrow it, depending on your application's needs
+    throw new Error("Error updating gateway configuration:", error.message);
   }
 }
-
-// async function isNeededGWCodeAvailable(obj) {
-
-//   if (!localStorage.hasOwnProperty(smartDpiGWCodeKey)) {
-//     receiveGWCode()
-//     console.log("smartDpiGWCodeKey not in local storge")
-//   } else {
-//     console.log("smartDpiGWCodeKey is in local storge")
-//     const storedData = localStorage.getItem(smartDpiGWCodeKey);
-//     const parsedData = JSON.parse(storedData);
-//     const storedTime = new Date(parsedData.timestamp);
-//     if (isTimePass(storedTime, GET_NEW_GW_CODE_TIME)) {
-//       receiveGWCode()
-//     } else {
-//       if (Number(parsedData.isCodeOnGW) === 1) {
-//         console.log("gw got the needed code for the extension")
-//         handleGWInformation()
-//       }
-//     }
-//   }
-// }
 
 // Main function to create the GatewayConfigInstance
 export const createGatewayConfigInstance = async () => {
   const gatewayConfigInstance = new GatewayConfigInfo(false, 'monitor', 50);
   try {
-    const result = await interactions.getContextObject();
-    await updateGWConfigParams(result);
+    await updateGWConfigParams();
+    const updateCodeOnGW = await isUpdateCodeOnGW();
+    if (!updateCodeOnGW){
+      console.log("no needed gw code");
+      gatewayConfigInstance.threshold = 33;
+    }
 
   } catch (error) {
     console.error("Failed to update gateway configuration:", error);
@@ -85,4 +111,4 @@ export const createGatewayConfigInstance = async () => {
 
   return gatewayConfigInstance;
 };
-  
+

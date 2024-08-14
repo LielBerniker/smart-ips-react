@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { DataSet, Timeline } from 'vis-timeline/standalone';
-import { convertToformat, convertDateToFormat, getNextDayFormatted ,convertFormatToDate } from '../utils/dateUtils';
+import { convertToformat, convertDateToFormat, getNextDayFormatted ,convertFormatToDate } from '../Utils/dateAndTimeUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
 
 function ProtectionsTimeline() {
