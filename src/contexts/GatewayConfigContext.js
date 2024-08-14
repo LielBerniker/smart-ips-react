@@ -14,8 +14,6 @@ const GatewayConfigProvider = ({ children }) => {
     const fetchData = async () => {
       try {
         const gatewayConfigInstance = await createGatewayConfigInstance();
-        console.log(gatewayConfigInstance.mode);
-        console.log(gatewayConfigInstance.threshold);
         setGatewayConfig(gatewayConfigInstance);
       } catch (error) {
         console.error("Error:", error);

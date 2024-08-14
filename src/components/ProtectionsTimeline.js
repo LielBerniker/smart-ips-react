@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { DataSet, Timeline } from 'vis-timeline/standalone';
 import { convertToformat, convertDateToFormat, getNextDayFormatted ,convertFormatToDate } from '../Utils/dateAndTimeUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
+import { ENABLED_STR, DISABLED_STR } from '../constants';
 
 function ProtectionsTimeline() {
   const { gatewayConfig } = useContext(GatewayConfigContext); // Access the global context
@@ -109,12 +110,12 @@ function createItemsForTimeline(history) {
 
     let currentData = timelineMap.get(dateKey);
 
-    if (logInfo.status === 'Disabled') {
+    if (logInfo.status === DISABLED_STR) {
       if (!currentData.has(logInfo.name)) {
         currentData.add(logInfo.name);
         protectionsSet.add(logInfo.name);
       }
-    } else if (logInfo.status === 'Enabled') {
+    } else if (logInfo.status === ENABLED_STR) {
       if (currentData.has(logInfo.name)) {
         protectionsSet.delete(logInfo.name);
       }

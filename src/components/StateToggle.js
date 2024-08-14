@@ -1,4 +1,5 @@
 import React from 'react';
+import { ENABLED_STR, DISABLED_STR } from '../constants';
 
 function StateToggle({ isEnabled, handleToggleChange }) {
   return (
@@ -13,7 +14,7 @@ function StateToggle({ isEnabled, handleToggleChange }) {
         />
         <span className="slider"></span>
       </label>
-      <span className="state-status">{isEnabled ? 'Enabled' : 'Disabled'}</span>
+      <span className="state-status">{isEnabled ? ENABLED_STR : DISABLED_STR}</span>
     </div>
   );
 }

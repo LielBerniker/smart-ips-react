@@ -1,4 +1,5 @@
 import React from 'react';
+import { MONITOR_STR, ACTION_STR } from '../constants';
 
 function ModeSelection({ isEnabled, mode, handleModeChange }) {
   return (
@@ -9,8 +10,8 @@ function ModeSelection({ isEnabled, mode, handleModeChange }) {
           <input
             type="radio"
             name="mode"
-            value="monitor"
-            checked={mode === 'monitor'}
+            value={MONITOR_STR}
+            checked={mode === MONITOR_STR}
             disabled={!isEnabled}
             onChange={handleModeChange}
           />
@@ -20,8 +21,8 @@ function ModeSelection({ isEnabled, mode, handleModeChange }) {
           <input
             type="radio"
             name="mode"
-            value="action"
-            checked={mode === 'action'}
+            value={ACTION_STR}
+            checked={mode === ACTION_STR}
             disabled={!isEnabled}
             onChange={handleModeChange}
           />

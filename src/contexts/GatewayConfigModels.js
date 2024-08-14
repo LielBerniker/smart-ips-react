@@ -16,6 +16,7 @@ class GatewayConfigInfo {
     this.protections = [];
     this.history = [];
     this.smartDpiKey = SMART_DPI_INFORMATION;
+    this.gateway = "";
   }
 
   addProtection(protection) {

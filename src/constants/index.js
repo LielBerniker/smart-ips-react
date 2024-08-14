@@ -3,7 +3,8 @@
 export const SMART_DPI_CONFIG = "$FWDIR/bin/smart_dpi_config.pyc";
 
 // Command paths for Smart DPI configuration
-export const SMART_DPI_PYTHON_CONFIG = "python3 " + SMART_DPI_CONFIG;
+export const SMART_DPI_PYTHON_CONFIG_REPORT = "python3 " + SMART_DPI_CONFIG + " report";
+export const SMART_DPI_PYTHON_CONFIG_UPDATE = "python3 " + SMART_DPI_CONFIG + " update";
 
 // find the code on GW
 export const SMART_DPI_FIND_GW_CODE = "if test -f " + SMART_DPI_CONFIG + "; then echo 1; else echo 0; fi;"
@@ -23,6 +24,7 @@ export const DISABLED_STR = "Disabled"
 export const MODE_UPDATE = "Mode update"
 export const STATE_UPDATE = "State update"
 export const SMART_DPI_INFORMATION = "smart_dpi_information"
+export const SMART_DPI_GW_CODE = "smart_dpi_gw_code"
 
 // found code on GW result
 export const FOUND_GW_CODE = 1;

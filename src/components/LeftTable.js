@@ -3,23 +3,26 @@ import StateToggle from './StateToggle';
 import ModeSelection from './ModeSelection';
 import ThresholdInput from './ThresholdInput';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext';
+import { updateGWInformation } from '../contexts/GatewayConfigService';
+import { MONITOR_STR } from '../constants';
 import './LeftTable.css';
 
 function LeftTable() {
   const { gatewayConfig, setGatewayConfig } = useContext(GatewayConfigContext);
-  
+
   // Initialize state with the global config values only at the beginning
   const [isEnabled, setIsEnabled] = useState(gatewayConfig.isEnabled);
-  const [mode, setMode] = useState(gatewayConfig.isEnabled ? gatewayConfig.mode : 'monitor');
+  const [mode, setMode] = useState(gatewayConfig.isEnabled ? gatewayConfig.mode : MONITOR_STR);
   const [threshold, setThreshold] = useState(gatewayConfig.threshold);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleToggleChange = () => {
     setIsEnabled((prevState) => {
       const newState = !prevState;
       if (!newState) {
-        setMode('monitor'); // Change mode to 'monitor' when disabling
+        setMode(MONITOR_STR); // Change mode to 'monitor' when disabling
       }
       return newState;
     });
@@ -33,8 +36,8 @@ function LeftTable() {
     setThreshold(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     console.log("click submit");
     const thresholdValue = parseInt(threshold, 10);
 
@@ -46,14 +49,32 @@ function LeftTable() {
     }
 
     setErrorMessage('');
-    // Update the existing gatewayConfig object
-    setGatewayConfig(prevConfig => ({
-      ...prevConfig,
+
+    // Prepare the updated gatewayConfig object
+    const updatedGatewayConfig = {
+      ...gatewayConfig,
       isEnabled,
       mode,
       threshold: thresholdValue,
-    }));
+    };
+
+    // Update the state with the new configuration
+    setGatewayConfig(updatedGatewayConfig);
+
+    // Disable the submit button
+    setIsSubmitting(true);
+
+    try {
+      // Wait for the async function to finish
+      await updateGWInformation(updatedGatewayConfig);
+    } catch (error) {
+      console.error("Failed to run after submit:", error);
+    } finally {
+      // Re-enable the submit button
+      setIsSubmitting(false);
+    }
   };
+
 
   const handleCloseError = () => {
     setShowError(false);
@@ -74,7 +95,9 @@ function LeftTable() {
                 <StateToggle isEnabled={isEnabled} handleToggleChange={handleToggleChange} />
                 <ModeSelection isEnabled={isEnabled} mode={mode} handleModeChange={handleModeChange} />
                 <ThresholdInput isEnabled={isEnabled} threshold={threshold} handleThresholdChange={handleThresholdChange} />
-                <button type="submit" onClick={handleSubmit}>Submit</button>
+                <button type="submit" onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </button>
               </div>
             </td>
           </tr>
