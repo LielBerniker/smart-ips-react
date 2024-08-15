@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { DataSet, Timeline } from 'vis-timeline/standalone';
-import { convertToformat, convertDateToFormat, getNextDayFormatted ,convertFormatToDate } from '../Utils/dateAndTimeUtils';
+import { convertToformat, convertDateToFormat, getNextDayFormatted, convertFormatToDate } from '../Utils/dateAndTimeUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
 import { ENABLED_STR, DISABLED_STR } from '../constants';
 
@@ -62,8 +62,19 @@ function ProtectionsTimeline() {
     setModalDetails(null);
   };
 
+  const copyToClipboard = () => {
+    if (modalDetails && modalDetails.info) {
+      const infoString = modalDetails.info.join(' ');
+      navigator.clipboard.writeText(infoString).then(() => {
+        console.log("Copied to clipboard:", infoString);
+      }).catch(err => {
+        console.error("Failed to copy to clipboard: ", err);
+      });
+    }
+  };
+
   if (loading) {
-    return <div className="loading-icon">Loading...</div>; // Replace with a spinner if desired
+    return <div className="loading-icon">Loading...</div>; 
   }
 
   return (
@@ -80,8 +91,13 @@ function ProtectionsTimeline() {
                   <li key={index}>{info}</li>
                 ))}
               </ul>
+            </div >
+            <div className="button-container">
+              <button className="close-modal" onClick={closeModal}>OK</button>
+              <button className="copy-button" onClick={copyToClipboard} title="Copy to clipboard">
+                🗐 Copy
+              </button>
             </div>
-            <button className="close-modal" onClick={closeModal}>OK</button>
           </div>
         </>
       )}
