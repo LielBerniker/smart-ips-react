@@ -64,7 +64,7 @@ function ProtectionsTimeline() {
 
   const copyToClipboard = () => {
     if (modalDetails && modalDetails.info) {
-      const infoString = modalDetails.info.join(' ');
+      const infoString = modalDetails.info.join('\n');
       navigator.clipboard.writeText(infoString).then(() => {
         console.log("Copied to clipboard:", infoString);
       }).catch(err => {
