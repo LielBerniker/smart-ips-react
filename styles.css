@@ -315,7 +315,6 @@ body {
   }
   
   .close-modal, .copy-button {
-    display: block;
     margin: 10px auto; /* Centers the button horizontally */
     padding: 10px 20px;
     font-size: 16px;
