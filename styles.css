@@ -316,10 +316,10 @@ body {
   
   .close-modal, .copy-button {
     display: inline-block; /* Ensure buttons are inline and next to each other */
-    height: 50px; /* Set a fixed height for both buttons */
-    line-height: 50px; /* Set the line height to match the button height */
+    height: 35px; /* Set a fixed height for both buttons */
+    line-height: 35px; /* Set the line height to match the button height */
     padding: 0 20px; /* Adjust padding to control the horizontal space */
-    font-size: 16px;
+    font-size: 14px;
     margin: 10px; /* Add some space around the buttons */
     vertical-align: middle; /* Align buttons to the middle */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
