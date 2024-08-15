@@ -1,4 +1,4 @@
-import { SMART_DPI_INFORMATION, SMART_DPI_GW_CODE, FOUND_GW_CODE, NOT_FOUND_GW_CODE, GET_NEW_REPORT_TIME, GET_NEW_GW_CODE_TIME, MONITOR_STR } from '../constants';
+import { SMART_DPI_INFORMATION, SMART_DPI_GW_CODE, FOUND_GW_CODE, NOT_FOUND_GW_CODE, GET_NEW_REPORT_TIME, GET_NEW_GW_CODE_TIME, MONITOR_STR, NO_CODE_ON_GW_MODE } from '../constants';
 import { GatewayConfigInfo } from './GatewayConfigModels';
 import { receiveGWCodeCli, receiveReporInfoCli, receiveUpdateInfoCli, receiveAmwFetchCli } from '../utils/cliUtils';
 import { isKeyTimePass, getGWCodeResult, getGWInformation, isCurrentTaskSucceeded } from '../utils/verificationUtils';
@@ -119,17 +119,16 @@ export const createGatewayConfigInstance = async () => {
     await updateGWConfigParams();
     const updateCodeOnGW = await isUpdateCodeOnGW();
     if (!updateCodeOnGW) {
-      console.log("no needed gw code");
-      gatewayConfigInstance.threshold = 33;
+      console.log("Error, the gw do not have the needed code for the extension");
+      gatewayConfigInstance.mode = NO_CODE_ON_GW_MODE;
     } else {
       await updateGWConfigInstance();
     }
-
+    return gatewayConfigInstance;
   } catch (error) {
     console.error("Failed to update gateway configuration: ", error);
+    throw new Error("Failed to update gateway configuration: ", error.message);
   }
-
-  return gatewayConfigInstance;
 };
 
 // Main function to create the GatewayConfigInstance

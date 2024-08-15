@@ -33,3 +33,6 @@ export const NOT_FOUND_GW_CODE = 0;
 // time in minutes
 export const GET_NEW_REPORT_TIME = 20;
 export const GET_NEW_GW_CODE_TIME = 720;
+
+// gw code mode
+export const NO_CODE_ON_GW_MODE = "no gw code";
