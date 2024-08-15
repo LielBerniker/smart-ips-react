@@ -321,7 +321,6 @@ body {
     font-size: 16px;
   }
   .button-container {
-    display: flex;
-    justify-content: flex-end;
+    text-align: center; 
   }
   
