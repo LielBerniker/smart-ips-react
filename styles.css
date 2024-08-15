@@ -315,9 +315,10 @@ body {
   }
   
   .close-modal, .copy-button {
-    margin: 10px auto; /* Centers the button horizontally */
+    display: inline-block; /* Ensure buttons are inline and next to each other */
     padding: 10px 20px;
     font-size: 16px;
+    margin: 10px; /* Add some space around the buttons */
   }
   .button-container {
     text-align: center; 
