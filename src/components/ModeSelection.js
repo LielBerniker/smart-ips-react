@@ -1,5 +1,6 @@
 import React from 'react';
 import { MONITOR_STR, ACTION_STR } from '../constants';
+import './ModeSelection.css';
 
 function ModeSelection({ isEnabled, mode, handleModeChange }) {
   return (

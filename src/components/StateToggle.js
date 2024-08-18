@@ -1,5 +1,6 @@
 import React from 'react';
 import { ENABLED_STR, DISABLED_STR } from '../constants';
+import './StateToggle.css';
 
 function StateToggle({ isEnabled, handleToggleChange }) {
   return (

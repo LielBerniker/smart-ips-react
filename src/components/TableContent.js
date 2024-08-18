@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext';
 import { MODE_UPDATE, STATE_UPDATE } from '../constants';
+import './TableContent.css'
 
 function TableContent({ tableType }) {
   const { gatewayConfig } = useContext(GatewayConfigContext);

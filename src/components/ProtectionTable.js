@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import TableContent from './TableContent';
 import ProtectionsTimeline from './ProtectionsTimeline';
+import './ProtectionTable.css'
 
 function ProtectionTable() {
   const [activeTab, setActiveTab] = useState('critical-impact-protections');

@@ -3,6 +3,7 @@ import { DataSet, Timeline } from 'vis-timeline/standalone';
 import { convertToformat, convertDateToFormat, getNextDayFormatted, convertFormatToDate } from '../Utils/dateAndTimeUtils';
 import { GatewayConfigContext } from '../contexts/GatewayConfigContext'; // Import the context
 import { ENABLED_STR, DISABLED_STR } from '../constants';
+import './ProtectionsTimeline.css'
 
 function ProtectionsTimeline() {
   const { gatewayConfig } = useContext(GatewayConfigContext); // Access the global context

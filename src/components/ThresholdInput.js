@@ -1,4 +1,6 @@
 import React from 'react';
+import './ThresholdInput.css';
+
 
 function ThresholdInput({ isEnabled, threshold, handleThresholdChange }) {
   return (

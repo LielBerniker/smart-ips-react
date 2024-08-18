@@ -134,6 +134,8 @@ export const createGatewayConfigInstance = async () => {
 // Main function to create the GatewayConfigInstance
 export async function updateGWInformation(gatewayConfig) {
   const updateInfoCli = receiveUpdateInfoCli(gatewayConfig);
+  console.log("update cli:")
+  console.log(updateInfoCli)
   var result = await interactions.requestCommit([updateInfoCli]);
   try {
     const updateSucceeded = await isCurrentTaskSucceeded(result)
