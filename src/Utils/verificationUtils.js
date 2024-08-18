@@ -2,19 +2,39 @@ import { FOUND_GW_CODE, MONITOR_MODE, ACTION_MODE, MONITOR_STR, ACTION_STR } fro
 import { isTimePass } from './dateAndTimeUtils';
 import { GatewayConfigInfo, ProtectionInformation } from '../contexts/GatewayConfigModels';
 
-async function isTaskSucceeded(item) {
+
+function validateAndGetFirstItem(value) {
+    if (!Array.isArray(value) || value.length === 0) {
+        console.log('Invalid input: value is not an array or is an empty array.');
+        throw new Error('Invalid input: value is not an array or is an empty array.');
+    }
+    return value[0];
+}
+
+async function getFirstTask(item) {
     try {
+        // Extract the JSON string from the input
         const jsonString = item.substring(item.indexOf('{'), item.lastIndexOf('}') + 1);
-        console.log(jsonString);
         const jsonData = JSON.parse(jsonString);
-        console.log(jsonData);
-        // Access the status of the first task directly
+
+        // Check if tasks are present and not empty
         if (!jsonData.tasks || jsonData.tasks.length === 0) {
             console.log('No tasks found in data.');
             throw new Error('No tasks found in data.');
         }
-        console.log(jsonData.tasks);
-        const taskStatus = jsonData.tasks[0].status;
+        // Return the first task
+        return jsonData.tasks[0];
+    } catch (error) {
+        console.error("An error occurred in getFirstTask(): ", error.message);
+        throw new Error("An error occurred in getFirstTask(): " + error.message);
+    }
+}
+
+
+async function isTaskSucceeded(item) {
+    try {
+        const firstTask = await getFirstTask(item);
+        const taskStatus = firstTask.status;
         if (taskStatus === "succeeded") {
             return true;
         } else {
@@ -30,14 +50,8 @@ async function isTaskSucceeded(item) {
 
 async function isCodeOnGW(item) {
     try {
-        const jsonString = item.substring(item.indexOf('{'), item.lastIndexOf('}') + 1);
-        const jsonData = JSON.parse(jsonString);
-        // Access the status of the first task directly
-        if (!jsonData.tasks || jsonData.tasks.length === 0) {
-            console.log('No tasks found in data.');
-            throw new Error('No tasks found in data.');
-        }
-        var responseMessage = jsonData.tasks[0]["task-details"][0].responseMessage;
+        const firstTask = await getFirstTask(item);
+        var responseMessage = firstTask["task-details"][0].responseMessage;
         const decodedMessage = atob(responseMessage);
         console.log(decodedMessage);
         if (Number(decodedMessage) === FOUND_GW_CODE) {
@@ -54,22 +68,17 @@ async function isCodeOnGW(item) {
 
 async function updateInfoList(parsedResponseArray, infoArray) {
     for (const parsedResponse of parsedResponseArray) {
-      var protectionInfo = new ProtectionInformation(parsedResponse.protection_name, parsedResponse.date, parsedResponse.status);
-      infoArray.push(protectionInfo);
+        var protectionInfo = new ProtectionInformation(parsedResponse.protection_name, parsedResponse.date, parsedResponse.status);
+        infoArray.push(protectionInfo);
     }
-  }
-  
+}
+
 
 async function getConfigurationData(item) {
     let gatewayConfigData = new GatewayConfigInfo(false, MONITOR_STR, 50);
     try {
-        const jsonString = item.substring(item.indexOf('{'), item.lastIndexOf('}') + 1);
-        const jsonData = JSON.parse(jsonString);
-        if (!jsonData.tasks && jsonData.tasks.length === 0) {
-            console.log('No tasks found in data.');
-            throw new Error('No tasks found in data.');
-        }
-        var responseMessage = jsonData.tasks[0]["task-details"][0].responseMessage;
+        const firstTask = await getFirstTask(item);
+        var responseMessage = firstTask["task-details"][0].responseMessage;
         const decodedMessage = atob(responseMessage);
         const parsedResponse = JSON.parse(decodedMessage);
         console.log(parsedResponse)
@@ -128,11 +137,8 @@ export async function isKeyTimePass(smartDpiKey, neededTime) {
 
 export async function getGWCodeResult(value) {
     try {
-        // Check if value is an array and has at least one element
-        if (!Array.isArray(value) || value.length === 0) {
-            throw new Error('Invalid input: value is not an array or is an empty array.');
-        }
-        var firstItem = value[0];
+
+        const firstItem = validateAndGetFirstItem(value)
         // Check if the task succeeded
         const taskSucceeded = await isTaskSucceeded(firstItem);
         if (!taskSucceeded) {
@@ -156,11 +162,7 @@ export async function getGWCodeResult(value) {
 
 export async function getGWInformation(value) {
     try {
-        // Check if value is an array and has at least one element
-        if (!Array.isArray(value) || value.length === 0) {
-            throw new Error('Invalid input: value is not an array or is an empty array.');
-        }
-        var firstItem = value[0];
+        const firstItem = validateAndGetFirstItem(value)
         // Check if the task succeeded
         const taskSucceeded = await isTaskSucceeded(firstItem);
         if (!taskSucceeded) {
@@ -178,24 +180,21 @@ export async function getGWInformation(value) {
 
 export async function isCurrentTaskSucceeded(value) {
     try {
-        // Check if value is an array and has at least one element
-        if (!Array.isArray(value) || value.length === 0) {
-            throw new Error('Invalid input: value is not an array or is an empty array.');
-        }
-        var firstItem = value[0];
+
+        const firstItem = validateAndGetFirstItem(value)
         // Check if the task succeeded
         const taskSucceeded = await isTaskSucceeded(firstItem);
         if (!taskSucceeded) {
             console.log('Fail, the current task has failed');
             throw new Error('Fail, the current task has failed');
-        } else {
-            return true
         }
+        return true
+
     } catch (error) {
         console.error("An error occurred in isCurrentTaskSucceeded(): ", error.message);
         throw new Error("An error occurred in isCurrentTaskSucceeded(): ", error.message);
     }
 }
 
-  
+
 

@@ -48,11 +48,11 @@ async function updateGWConfigInstance() {
 
 async function updateAndReturnGWCodeStatus(isGWCode) {
   if (isGWCode) {
-    console.log("GW have the needed code for the smart ips extension")
+    console.log("GW has the needed code for the smart ips extension")
     updateGWCodeLocalStorge(FOUND_GW_CODE, gatewayConfigState.smartDpiGWCodeKey);
   }
   else {
-    console.log("GW do not have the needed code for the smart ips extension")
+    console.log("GW do not has the needed code for the smart ips extension")
     updateGWCodeLocalStorge(NOT_FOUND_GW_CODE, gatewayConfigState.smartDpiGWCodeKey);
   }
 }
@@ -70,11 +70,11 @@ async function isUpdateCodeOnGW() {
       const storedData = localStorage.getItem(gatewayConfigState.smartDpiGWCodeKey);
       const parsedData = JSON.parse(storedData);
       if (Number(parsedData.isCodeOnGW) === FOUND_GW_CODE) {
-        console.log("GW have the needed code for the smart ips extension")
+        console.log("GW has the needed code for the smart ips extension")
         return true;
       }
       else {
-        console.log("GW do not have the needed code for the smart ips extension")
+        console.log("GW do not has the needed code for the smart ips extension")
         return false;
       }
     }

@@ -71,6 +71,7 @@ function LeftTable() {
     } catch (error) {
       console.error("Failed to run after submit:", error);
     } finally {
+      console.log("Finish to sumbit the info, refresh the page");
       // Re-enable the submit button
       setIsSubmitting(false);
       window.location.reload();
