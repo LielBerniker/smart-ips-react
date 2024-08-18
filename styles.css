@@ -11,27 +11,6 @@ body {
     width: 100%; /* Ensure the container takes up full width */
   }
   
-  .left-table-wrapper {
-    width: 25%; /* Ensure the left table takes up 25% of the width */
-    border: 3px solid #2e3f58; /* Thicker border */
-    border-radius: 5px; /* More rounded corners */
-    margin: 10px;
-    overflow: hidden; /* Ensure the rounded corners are visible */
-  }
-  
-  .left-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .policy-header {
-    background-color: #2e3f58; /* Dark blue color */
-    color: white;
-    padding: 10px;
-    text-align: left;
-    font-size: 12px;
-  }
-  
   .protection-table-container {
     width: 75%; /* Ensure the right container takes up 75% of the width */
     border: 3px solid #2e3f58; /* Dark blue border around all elements */
@@ -122,12 +101,6 @@ body {
   
   .protection-table-tbody tr:nth-child(even) {
     background-color: #f2f2f2;
-  }
-  
-  .config-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align items to the left */
   }
   
   button {
