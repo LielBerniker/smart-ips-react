@@ -55,3 +55,8 @@ export async function updateGWInfoLocalStorge(currentGatewayInfo, smartDpiInform
     localStorage.setItem(smartDpiInformationKey, JSON.stringify(SmartDpiObject));
     console.log("Finish to update info local storage");
 }
+
+export async function deleteGWInfoLocalStorge(smartDpiInformationKey) {
+    localStorage.removeItem(smartDpiInformationKey);
+    console.log("Finish to delete info local storage");
+}

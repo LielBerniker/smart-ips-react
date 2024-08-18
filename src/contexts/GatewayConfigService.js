@@ -2,7 +2,7 @@ import { SMART_DPI_INFORMATION, SMART_DPI_GW_CODE, FOUND_GW_CODE, NOT_FOUND_GW_C
 import { GatewayConfigInfo } from './GatewayConfigModels';
 import { receiveGWCodeCli, receiveReporInfoCli, receiveUpdateInfoCli, receiveAmwFetchCli } from '../utils/cliUtils';
 import { isKeyTimePass, getGWCodeResult, getGWInformation, isCurrentTaskSucceeded } from '../utils/verificationUtils';
-import { updateGWCodeLocalStorge, getGWInfoFromLocalStorage, updateGWInfoLocalStorge } from '../utils/localStorageUtils';
+import { updateGWCodeLocalStorge, getGWInfoFromLocalStorage, updateGWInfoLocalStorge, deleteGWInfoLocalStorge } from '../utils/localStorageUtils';
 import SmartConsoleInteractions from "smart-console-interactions";
 
 let gatewayConfigInstance = new GatewayConfigInfo(false, MONITOR_STR, 50);
@@ -141,7 +141,7 @@ export async function updateGWInformation(gatewayConfig) {
       console.log('Fail to get update of Smart IPS information');
       throw new Error('Fail to get update of Smart IPS information');
     }
-    await updateGWInfoLocalStorge(gatewayConfig, gatewayConfig.smartDpiKey)
+    await deleteGWInfoLocalStorge(gatewayConfig.smartDpiKey)
     const AmwFetchCli = receiveAmwFetchCli(gatewayConfig.gateway);
     var result = await interactions.requestCommit([AmwFetchCli]);
     const amwFetchSucceeded = await isCurrentTaskSucceeded(result)

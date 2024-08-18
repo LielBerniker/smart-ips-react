@@ -72,6 +72,7 @@ function LeftTable() {
     } finally {
       // Re-enable the submit button
       setIsSubmitting(false);
+      window.location.reload();
     }
   };
 
