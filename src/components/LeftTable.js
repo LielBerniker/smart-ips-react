@@ -40,7 +40,6 @@ function LeftTable() {
     event.preventDefault();
     console.log("click submit");
     const thresholdValue = parseInt(threshold, 10);
-    const enabledValue = isEnabled ? 1 : 0;
 
     if (thresholdValue < 1 || thresholdValue > 100) {
       setErrorMessage('Please insert a valid threshold percentage, between 1 to 100.');
@@ -54,7 +53,7 @@ function LeftTable() {
     // Prepare the updated gatewayConfig object
     const updatedGatewayConfig = {
       ...gatewayConfig,
-      isEnabled: enabledValue,
+      isEnabled,
       mode,
       threshold: thresholdValue,
     };

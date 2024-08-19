@@ -13,8 +13,9 @@ export function receiveReporInfoCli(gatewayName) {
 }
 
 export function receiveUpdateInfoCli(gatewayConfig) {
+    const enabledValue = gatewayConfig.isEnabled ? "1" : "0";
     // send API request
-    const updateConfigCli = SMART_DPI_PYTHON_CONFIG_UPDATE + " " + gatewayConfig.isEnabled.toString() + " " + gatewayConfig.mode + " " + gatewayConfig.threshold.toString()
+    const updateConfigCli = SMART_DPI_PYTHON_CONFIG_UPDATE + " " + enabledValue + " " + gatewayConfig.mode + " " + gatewayConfig.threshold.toString()
     const mgmtCli = `run-script script-name "smart_dpi_config_update" script "${updateConfigCli}" targets.1 "${gatewayConfig.gateway}" --format json`;
     return mgmtCli;
 }
