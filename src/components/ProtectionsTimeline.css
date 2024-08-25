@@ -29,27 +29,36 @@
     margin-top: 0;
   }
 
+  #item-details {
+    padding: 0;
+  }
+
   .items-header {
     text-align: center;
     background-color: #2e3f58; /* Dark blue background */
     color: white; /* White text color */
-    margin-top: 0; /* Remove the top margin */
+    margin: 0; /* Remove the top margin */
     padding-top: 0; /* Remove the top padding */
     box-sizing: border-box; /* Include padding in width calculation */
     padding: 10px;
+    font-size: 14px;
   }
 
   .items-list {
     list-style-type: none;
     padding: 0;
-    max-height: 300px;
+    margin: 0; 
+    max-height: 160px;
     overflow-y: auto;
+    max-width: 450px; 
+    word-wrap: break-word; /* Ensure words break to fit the width */
   }
   
   .items-list li {
     padding-left: 10px; 
     padding-right: 10px; 
-    padding-top: 3px; 
+    padding-top: 3px;
+    font-size: 12px; 
   }
 
   .button-container {

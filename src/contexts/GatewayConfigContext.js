@@ -42,7 +42,7 @@ const GatewayConfigProvider = ({ children }) => {
   }
 
   if (noGWCodeState) {
-    return <div>The current version of the Gateway do not support this application, please upgrade the gw version.</div>;
+    return <div>The current version of the Gateway do not support this application, please upgrade the Gateway version.</div>;
   }
 
   return (

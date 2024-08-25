@@ -43,7 +43,7 @@ function LeftTable() {
 
     if (thresholdValue < 1 || thresholdValue > 100) {
       setErrorMessage('Please insert a valid threshold percentage, between 1 to 100.');
-      setThreshold(60);
+      setThreshold(gatewayConfig.threshold);
       setShowError(true);
       return;
     }
