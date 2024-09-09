@@ -45,12 +45,16 @@ function TableContent({ tableType }) {
           } else {
             tdClassStatus += row.status;
           }
+          var statusContent = row.status;
+          if (row.status === "Recommended"){
+            statusContent = "Alert";
+          }
 
           return (
             <tr key={index}>
               <td className="protection-table-td">{row.name}</td>
               <td className="protection-table-td">{row.date}</td>
-              <td className={tdClassStatus}>{row.status}</td>
+              <td className={tdClassStatus}>{statusContent}</td>
             </tr>
           );
         })}
